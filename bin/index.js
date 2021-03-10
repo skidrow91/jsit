@@ -1,12 +1,65 @@
 #! /usr/bin/env node
 
-const yargs = require("yargs");
+const yargs = require("yargs")
+
+const GitRepo = require("../GitRepo")
 
 // var test = yargs.command('test', false, function(yargs1){
 //   return yargs.option()
 // }).arg;
 // console.log(test);
 
+yargs.command('init','',
+    // function (yargs) {
+    //   return yargs.option('u', {
+    //     alias: 'url',
+    //     describe: ''
+    //   })
+    // },
+    {},
+    async function (argv) {
+      // let isExist = GitRepo.gitExist()
+      // .then((res) => {
+      //   console.log(res)
+      // }).catch((err) => {
+      //   console.log(err)
+      // })
+
+      try {
+        let path = await GitRepo.gitExist()
+        if (path == true) {
+
+        } else {
+          GitRepo.gitInit()
+        }
+        path = GitRepo.gitConfigExist()
+        if (path == true) {
+          console.log(path)
+        } else {
+          GitRepo.gitCreateConfig()
+        }
+        // console.log(path)
+      } catch (err) {
+        console.log(err)
+      }
+
+      // .then((res) => {
+      //   console.log(res)
+      // }).catch((err) => {
+      //   console.log(err)
+      // })
+
+
+      // console.log(GitRepo.gitExist())
+      // if (argv.hasOwnProperty('url')) {
+      //   console.log(argv.url)
+      // } else {
+      //   console.log('test423')
+      // }
+    }
+  )
+  .help()
+  .argv
 
 yargs
   .command(
@@ -18,7 +71,7 @@ yargs
     //     describe: ''
     //   })
     // },
-    {},    
+    {},
     function (argv) {
       console.log(argv._[1])
       // if (argv.hasOwnProperty('url')) {
