@@ -64,17 +64,30 @@ class GitRepo {
 
   gitCreateConfig() {
     try {
+      let config = ""
       let path = './'+this.gitPath+'/'+this.gitConfig
-      let config = {
-        test: 'test',
-        test1: 'test1',
-        test2: 'test2',
-        config: {
-          test3: 'test3',
-          test4: 'test4'
+      let coreConfig = {
+        core: {
+          repositoryformatversion: 0,
+          filemode: false,
+          bare: false,
+          logallrefupdates: true,
+          symlinks: false,
+          ignorecase: false
         }
       }
-      fs.writeFileSync(path, ini.stringify(config, {section: 'section'}))
+      config += ini.stringify(coreConfig)+"\n"
+      let remoteConfig = {
+        url: "https://",
+        fetch: "test"
+      }
+      config += ini.stringify(remoteConfig, {section: 'remote "origin"'})+"\n"
+      let branchConfig = {
+        remote: "origin",
+        merge: "refs/heads/master"
+      }
+      config += ini.stringify(branchConfig, {section: 'branch "master"'})
+      fs.writeFileSync(path, config)
       return true
     } catch (err) {
       console.log(err)
