@@ -98,7 +98,12 @@ class GitRepo {
 
   gitAdd(path) {
     let data = fs.readFileSync(path, 'utf8')
-    return data
+    let hash = GitObject.hashObject(data)
+    let dirName = hash.substr(0, 2)
+    let fileName = hash.substr(2)
+    console.log(dirName)
+    console.log(fileName)
+    return hash
     // GitObject.hashObject(data)
   }
 
