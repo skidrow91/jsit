@@ -1,5 +1,6 @@
 const fs = require('fs')
 const ini = require('ini')
+const GitObject = require('./GitObject')
 
 class GitRepo {
 
@@ -93,6 +94,40 @@ class GitRepo {
       console.log(err)
       return false
     }
+  }
+
+  gitAdd(path) {
+    let data = fs.readFileSync(path, 'utf8')
+    return data
+    // GitObject.hashObject(data)
+  }
+
+  // repoFiles(dirName) {
+  //   let files = []
+  //   let orgPath = './'+dirName
+  //   let filesPath = fs.readdirSync('./')
+  //   filesPath.forEach(file => {
+  //     files.push(orgPath+file)
+  //   })
+  //   return files
+  // }
+
+  repoFiles(orgPath='.') {
+    let dirs = []
+    let dirsPath = fs.readdirSync(orgPath)
+    dirsPath.forEach(dirName => {
+      let path = orgPath+'/'+dirName
+      if (fs.lstatSync(path).isDirectory()) {
+        let files = this.repoFiles(path)
+        files.forEach(file => {
+          dirs.push(file)
+        })
+      } else {
+        dirs.push(path)
+      }
+    })
+
+    return dirs
   }
 }
 
