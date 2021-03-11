@@ -73,12 +73,34 @@ yargs
     // },
     {},
     function (argv) {
-      console.log(argv._[1])
+      let path = argv._[1]
+      console.log(GitRepo.gitAdd(path))
+
+      // console.log(argv._[1])
       // if (argv.hasOwnProperty('url')) {
       //   console.log(argv.url)
       // } else {
       //   console.log('test423')
       // }
+    }
+  )
+  .help()
+  .argv
+
+
+  yargs
+  .command(
+    'status',
+    '',
+    // function (yargs) {
+    //   return yargs.option('u', {
+    //     alias: 'url',
+    //     describe: ''
+    //   })
+    // },
+    {},
+    function (argv) {
+      console.log(GitRepo.repoFiles())
     }
   )
   .help()
