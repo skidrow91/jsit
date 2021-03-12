@@ -8,6 +8,7 @@ class GitRepo {
     this.path = ""
     this.gitPath = ".git"
     this.gitConfig = "config"
+    this.gitObjects = "objects"
   }
 
   // _init() {
@@ -96,13 +97,19 @@ class GitRepo {
     }
   }
 
-  gitAdd(path) {
+  gitCreateObject() {
+    let path = './'+this.gitPath+'/'+this.gitObjects
+    fs.mkdirSync(path)
+  }
+
+  async gitAdd(path) {
     let data = fs.readFileSync(path, 'utf8')
     let hash = GitObject.hashObject(data)
-    let dirName = hash.substr(0, 2)
-    let fileName = hash.substr(2)
-    console.log(dirName)
-    console.log(fileName)
+    // let dirName = hash.substr(0, 2)
+    // let fileName = hash.substr(2)
+    // console.log(dirName)
+    // console.log(fileName)
+    await GitObject.createFile(hash, data)
     return hash
     // GitObject.hashObject(data)
   }
@@ -120,15 +127,18 @@ class GitRepo {
   repoFiles(orgPath='.') {
     let dirs = []
     let dirsPath = fs.readdirSync(orgPath)
+    let self = this
     dirsPath.forEach(dirName => {
-      let path = orgPath+'/'+dirName
-      if (fs.lstatSync(path).isDirectory()) {
-        let files = this.repoFiles(path)
-        files.forEach(file => {
-          dirs.push(file)
-        })
-      } else {
-        dirs.push(path)
+      if (dirName != this.gitPath) {
+        let path = orgPath+'/'+dirName
+        if (fs.lstatSync(path).isDirectory()) {
+          let files = this.repoFiles(path)
+          files.forEach(file => {
+            dirs.push(file)
+          })
+        } else {
+          dirs.push(path)
+        }
       }
     })
 
