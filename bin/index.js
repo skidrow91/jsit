@@ -38,6 +38,7 @@ yargs.command('init','',
         } else {
           GitRepo.gitCreateConfig()
         }
+        GitRepo.gitCreateObject()
         // console.log(path)
       } catch (err) {
         console.log(err)
@@ -72,10 +73,10 @@ yargs
     //   })
     // },
     {},
-    function (argv) {
+    async function (argv) {
       let path = argv._[1]
-      console.log(GitRepo.gitAdd(path))
-
+      let hash = await GitRepo.gitAdd(path)
+      console.log(hash)
       // console.log(argv._[1])
       // if (argv.hasOwnProperty('url')) {
       //   console.log(argv.url)
