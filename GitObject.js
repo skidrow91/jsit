@@ -17,7 +17,7 @@ class GitObject {
     let fileName = hash.substr(2)
     // let str = zlib.deflateSync(data).toString('utf8')
     let dirPath = path + '/' + dirName
-    console.log(dirPath)
+    // console.log(dirPath)
     let fileExist = await this.checkFileExist(dirPath)
 
     if (fileExist == false) {
@@ -38,6 +38,40 @@ class GitObject {
         }
       })
     })
+  }
+
+  writeIndex() {
+    let pathIndex = './.git/index'
+    let dirs = this.repoFiles()
+    let indexStr = ""
+
+    dirs.forEach(path => {
+      let data = fs.readFileSync(path, 'utf8')
+      let hash = this.hashObject(data)
+      indexStr += hash + ' ' + path + "\n"
+    })
+    console.log(indexStr)
+    // console.log(dirs)
+  }
+
+  repoFiles(orgPath='.') {
+    let dirs = []
+    let dirsPath = fs.readdirSync(orgPath)
+    dirsPath.forEach(dirName => {
+      if (dirName != '.git') {
+        let path = orgPath+'/'+dirName
+        if (fs.lstatSync(path).isDirectory()) {
+          let files = this.repoFiles(path)
+          files.forEach(file => {
+            dirs.push(file)
+          })
+        } else {
+          dirs.push(path)
+        }
+      }
+    })
+
+    return dirs
   }
 }
 
