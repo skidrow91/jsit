@@ -114,20 +114,9 @@ class GitRepo {
     // GitObject.hashObject(data)
   }
 
-  // repoFiles(dirName) {
-  //   let files = []
-  //   let orgPath = './'+dirName
-  //   let filesPath = fs.readdirSync('./')
-  //   filesPath.forEach(file => {
-  //     files.push(orgPath+file)
-  //   })
-  //   return files
-  // }
-
   repoFiles(orgPath='.') {
     let dirs = []
     let dirsPath = fs.readdirSync(orgPath)
-    let self = this
     dirsPath.forEach(dirName => {
       if (dirName != this.gitPath) {
         let path = orgPath+'/'+dirName
