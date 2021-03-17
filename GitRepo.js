@@ -9,6 +9,7 @@ class GitRepo {
     this.gitPath = ".git"
     this.gitConfig = "config"
     this.gitObjects = "objects"
+    this.gitBranches = "refs/heads"
   }
 
   // _init() {
