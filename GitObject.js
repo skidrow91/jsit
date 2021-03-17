@@ -50,7 +50,11 @@ class GitObject {
       let hash = this.hashObject(data)
       indexStr += hash + ' ' + path + "\n"
     })
-    console.log(indexStr)
+
+    if (indexStr.length > 0) {
+      fs.writeFileSync(pathIndex, indexStr)
+    }
+    // console.log(indexStr)
     // console.log(dirs)
   }
 
