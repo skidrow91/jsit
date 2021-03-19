@@ -12,7 +12,7 @@ class GitObject {
   }
 
   async createFile(hash, data) {
-    let path = './.git/objects'
+    let path = './.jsit/objects'
     let dirName = hash.substr(0, 2)
     let fileName = hash.substr(2)
     // let str = zlib.deflateSync(data).toString('utf8')
@@ -40,8 +40,8 @@ class GitObject {
     })
   }
 
-  writeIndex() {
-    let pathIndex = './.git/index'
+  writeIndex(path) {
+    let pathIndex = './.jsit/index'
     let dirs = this.repoFiles()
     let indexStr = ""
 
@@ -54,15 +54,16 @@ class GitObject {
     if (indexStr.length > 0) {
       fs.writeFileSync(pathIndex, indexStr)
     }
-    // console.log(indexStr)
-    // console.log(dirs)
+
+   let pathIndex = './.jsit/index'
+
   }
 
   repoFiles(orgPath='.') {
     let dirs = []
     let dirsPath = fs.readdirSync(orgPath)
     dirsPath.forEach(dirName => {
-      if (dirName != '.git') {
+      if (dirName != '.jsit') {
         let path = orgPath+'/'+dirName
         if (fs.lstatSync(path).isDirectory()) {
           let files = this.repoFiles(path)
