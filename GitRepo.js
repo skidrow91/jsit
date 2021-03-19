@@ -6,10 +6,11 @@ class GitRepo {
 
   constructor() {
     this.path = ""
-    this.gitPath = ".git"
+    this.gitPath = ".jsit"
     this.gitConfig = "config"
     this.gitObjects = "objects"
-    this.gitBranches = "refs/heads"
+    this.gitRefs = "refs"
+    this.gitBranches = "heads"
   }
 
   // _init() {
@@ -103,8 +104,15 @@ class GitRepo {
     fs.mkdirSync(path)
   }
 
+  gitCreateRef() {
+    let refPath = './'+this.gitPath+'/'+this.gitRefs
+    let branchPath = refPath+'/'+this.gitBranches
+    fs.mkdirSync(refPath)
+    fs.mkdirSync(branchPath)
+  }
+
   async gitAdd(path) {
-    let data = fs.readFileSync(path, 'utf8')
+    /*let data = fs.readFileSync(path, 'utf8')
     let hash = GitObject.hashObject(data)
     // let dirName = hash.substr(0, 2)
     // let fileName = hash.substr(2)
@@ -113,6 +121,9 @@ class GitRepo {
     await GitObject.createFile(hash, data)
     return hash
     // GitObject.hashObject(data)
+    */
+
+   GitObject.writeIndex(path)
   }
 
   repoFiles(orgPath='.') {
