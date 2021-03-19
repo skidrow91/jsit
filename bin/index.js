@@ -39,6 +39,7 @@ yargs.command('init','',
           GitRepo.gitCreateConfig()
         }
         GitRepo.gitCreateObject()
+        GitRepo.gitCreateRef()
         // console.log(path)
       } catch (err) {
         console.log(err)
